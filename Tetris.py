@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from curses import KEY_DOWN
 import pygame
 
@@ -27,5 +28,3 @@ while not done:
             if event.key == pygame.K_RIGHT:
                 game.right()
         if event.key ==     
-
-pygame.quit()
