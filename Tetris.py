@@ -19,14 +19,16 @@ class Figure:
     y = 0
 
     figures = [
-        #[[1, 5, 9, 13], [4, 5, 6, 7]],
-        #[[4, 5, 9, 10], [2, 6, 5, 9]],
-        #[[6, 7, 9, 10], [1, 5, 6, 10]],
-        #[[1, 2, 5, 9], [0, 4, 5, 6], [1, 5, 9, 8], [4, 5, 6, 10]],
-        #[[1, 2, 6, 10], [5, 6, 7, 9], [2, 6, 10, 11], [3, 5, 6, 7]],
+
+                [[1, 5, 9, 13], [4, 5, 6, 7]],
+        [[4, 5, 9, 10], [2, 6, 5, 9]],
+        [[6, 7, 9, 10], [1, 5, 6, 10]],
+        [[1, 2, 5, 9], [0, 4, 5, 6], [1, 5, 9, 8], [4, 5, 6, 10]],
+        [[1, 2, 6, 10], [5, 6, 7, 9], [2, 6, 10, 11], [3, 5, 6, 7]],
         [[1, 4, 5, 6], [1, 4, 5, 9], [4, 5, 6, 9], [1, 5, 6, 9]],
-        #[[1, 2, 5, 6]],
-        #[[6, 2, 3, 10, 9,], [11, 7, 6, 5, 1],]
+        [[1, 2, 5, 6]],
+    	[[0, 1, 2, 5, 9] ,[0, 4, 8, 5, 6], [8, 9, 10, 5, 1], [2, 6, 10, 5, 4]]
+
     ]
 
     def __init__(self, x, y):
@@ -118,7 +120,13 @@ class Tetris:
         if self.intersects():
             self.state = "gameover"
 
-    def go_side(self, dx):
+    def go_side_left(self, dx):
+        old_x = self.figure.x
+        self.figure.x += dx
+        if self.intersects():
+            self.figure.x = old_x
+            
+    def go_side_right(self, dx):
         old_x = self.figure.x
         self.figure.x += dx
         if self.intersects():
@@ -173,9 +181,9 @@ while not done:
             if event.key == pygame.K_DOWN:
                 pressing_down = True
             if event.key == pygame.K_LEFT:
-                game.go_side(-1)
+                game.go_side_left(-1)
             if event.key == pygame.K_RIGHT:
-                game.go_side(1)
+                game.go_side_right(1)
             if event.key == pygame.K_SPACE:
                 game.go_space()
             if event.key == pygame.K_ESCAPE:
@@ -207,13 +215,13 @@ while not done:
     font = pygame.font.SysFont('Calibri', 25, True, False)
     font1 = pygame.font.SysFont('Calibri', 65, True, False)
     text = font.render("Score: " + str(game.score), True, BLACK)
-    text_game_over = font1.render("Game Over", True, (255, 125, 0))
-    text_game_over1 = font1.render("Press ESC", True, (255, 215, 0))
+    text_game_over = font1.render("Game Over", True, (0, 0, 0))
+    text_game_over1 = font1.render("Press ESC", True, (0, 0, 0))
 
     screen.blit(text, [0, 0])
     if game.state == "gameover":
-        screen.blit(text_game_over, [20, 200])
-        screen.blit(text_game_over1, [25, 265])
+        screen.blit(text_game_over, [20, 20])
+        screen.blit(text_game_over1, [20, 70])
 
     pygame.display.flip()
     clock.tick(fps)
